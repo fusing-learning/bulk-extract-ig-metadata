@@ -20,7 +20,7 @@ profile = instaloader.Profile.from_username(L.context, username)
 output_file = f"{username}_saved_posts.csv"
 with open(output_file, "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
-    writer.writerow(["post_url", "Username", "date_local", "caption"])
+    writer.writerow(["post_url", "Username", "date_local", "caption", "accessibility_caption"])
 
     for post in profile.get_saved_posts():
         shortcode = post.shortcode
@@ -29,7 +29,8 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
             post_url,
             post.owner_username,
             post.date_local.strftime("%Y-%m-%d %H:%M:%S") if post.date_local else "N/A",
-            post.caption
+            post.caption,
+            post.accessibility_caption if post.accessibility_caption else "N/A"
         ])
 
         # [Optional] Download saved posts
