@@ -1,2 +1,4 @@
 test/
+saved_posts/
 .DS_Store
+*.csv
