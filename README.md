@@ -6,7 +6,7 @@ Sometimes there are Instagram posts that I found interesting and want to downloa
 
 I created `bulk_extract_ig_metadata.py` first as it seems easier to create, but my actual workflow is I might be scrolling Instagram at different time throughout the day, so I would save the interesting posts first, then try to download them while on my laptop, but Instagram Saved Post is somehow quite buggy on web browser and often doesn't load for me, so I created `extract_saved_ig_posts.py` to extract the metadata into a CSV while downloading the saved posts' photos / videos too.
 
-# The Output
+## The Output
 
 There are 2 simple scripts in this repo:
 - `bulk_extract_ig_metadata.py` allows user to specify a txt file that contains a list of Instagram URLs and extracted the `username` and the creation date of each post into a CSV file.
