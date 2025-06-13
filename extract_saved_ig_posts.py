@@ -22,7 +22,11 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
     writer.writerow(["post_url", "Username", "date_local", "caption", "accessibility_caption"])
 
-    for post in profile.get_saved_posts():
+    saved_posts = list(profile.get_saved_posts())
+    total_posts = len(saved_posts)
+    print(f"Total saved posts: {total_posts}")
+
+    for idx, post in enumerate(saved_posts, start=1):
         shortcode = post.shortcode
         post_url = f"https://www.instagram.com/p/{shortcode}/"
         writer.writerow([
@@ -35,5 +39,7 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
 
         # [Optional] Download saved posts
         # L.download_post(post, target="saved_posts")
+
+        print(f"Processed {idx}/{total_posts} posts", end='\r') # \r moves the cursor back to the start of the line, so the next print will overwrite the same line.
     
 print(f"Saved posts metadata written to {output_file}")
