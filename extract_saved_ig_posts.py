@@ -1,6 +1,7 @@
 import instaloader
 import re
 import csv
+import webbrowser
 
 # Initialize Instaloader & Login
 L = instaloader.Instaloader(save_metadata=False, download_comments=False, post_metadata_txt_pattern="")
@@ -26,6 +27,8 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
     total_posts = len(saved_posts)
     print(f"Total saved posts: {total_posts}")
 
+    open_posts = input("Do you want to open the saved posts in your browser? (y/n): ").strip().lower()
+
     for idx, post in enumerate(saved_posts, start=1):
         shortcode = post.shortcode
         post_url = f"https://www.instagram.com/p/{shortcode}/"
@@ -36,6 +39,9 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
             post.caption,
             post.accessibility_caption if post.accessibility_caption else "N/A"
         ])
+
+        if open_posts == "y":
+            webbrowser.open(post_url)
 
         # [Optional] Download saved posts
         # L.download_post(post, target="saved_posts")
