@@ -21,7 +21,7 @@ profile = instaloader.Profile.from_username(L.context, username)
 output_file = f"{username}_saved_posts.csv"
 with open(output_file, "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
-    writer.writerow(["post_url", "Username", "date_local", "caption", "accessibility_caption"])
+    writer.writerow(["Username","post_url", "date_local", "caption", "accessibility_caption"])
 
     saved_posts = list(profile.get_saved_posts())
     total_posts = len(saved_posts)
@@ -33,8 +33,8 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
         shortcode = post.shortcode
         post_url = f"https://www.instagram.com/p/{shortcode}/"
         writer.writerow([
-            post_url,
             post.owner_username,
+            post_url,
             post.date_local.strftime("%Y-%m-%d %H:%M:%S") if post.date_local else "N/A",
             post.caption,
             post.accessibility_caption if post.accessibility_caption else "N/A"
