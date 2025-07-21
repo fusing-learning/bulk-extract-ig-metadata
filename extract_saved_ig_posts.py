@@ -35,13 +35,14 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
     writer.writerow(["Username","post_url", "date_local", "caption", "accessibility_caption"])
 
-    saved_posts = list(profile.get_saved_posts())
-    total_posts = len(saved_posts)
-    print(f"Total saved posts: {total_posts}")
-
-    open_posts = input("Do you want to open the saved posts in your browser? (y/n): ").strip().lower()
-
-    for idx, post in enumerate(saved_posts, start=1):
+    saved_posts = profile.get_saved_posts()
+    print("Processing saved posts...")
+    
+    urls_to_open = []
+    processed_count = 0
+    
+    for post in saved_posts:
+        processed_count += 1
         shortcode = post.shortcode
         post_url = f"https://www.instagram.com/p/{shortcode}/"
         writer.writerow([
@@ -52,17 +53,22 @@ with open(output_file, "w", newline="", encoding="utf-8") as f:
             post.accessibility_caption if post.accessibility_caption else "N/A"
         ])
 
-        if open_posts == "y":
-            webbrowser.open(post_url)
-            # Rate limiting when opening browser tabs
-            time.sleep(2)
+        urls_to_open.append(post_url)
 
         # [Optional] Download saved posts
         # L.download_post(post, target="saved_posts")
 
-        print(f"Processed {idx}/{total_posts} posts", end='\r') # \r moves the cursor back to the start of the line, so the next print will overwrite the same line.
+        print(f"Processed {processed_count} posts", end='\r')
         
         # Rate limiting - wait 1 second between requests
         time.sleep(1)
     
-print(f"Saved posts metadata written to {output_file}")
+    print(f"\nTotal saved posts: {processed_count}")
+    
+    open_posts = input("Do you want to open all saved posts in your browser? (y/n): ").strip().lower()
+    if open_posts == "y" and urls_to_open:
+        print(f"Opening {len(urls_to_open)} posts in browser...")
+        for url in urls_to_open:
+            webbrowser.open(url)
+    
+print(f"\nSaved posts metadata written to {output_file}")
